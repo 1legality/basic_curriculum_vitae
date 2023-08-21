@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name - Curriculum Vitae</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <style>
+    .year {
+      text-align: right;
+    }
+
+    .entity-title {
+      font-weight: bold;
+    }
+
+    .fixed-top {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 5px;
+      background-color: #f8f9fa;
+    }
+
+    .content-area {
+      margin-top: 120px;
+      margin-bottom: 80px;
+    }
+
+    .fixed-bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 15px;
+      background-color: #f8f9fa;
+    }
+
+    /* Vertical pills */
+    /* .nav-pills .nav-link {
+      border-radius: 0;
+    }
+
+    .nav-pills .nav-link.active {
+      background-color: #f8f9fa; /* Active tab background color */
+    color: #000;
+    /* Active tab text color */
+    }
+
+    */
+  </style>
+</head>
+
+<body>
+
+  <div class="text-center fixed-top mb-4">
+    <h1>Your Name</h1>
+    <p>Curriculum Vitae</p>
+  </div>
+
+  <div class="container mt-5 ">
+    <div class="row content-area">
+      <div class="col-md-3">
+        <div class="nav flex-column nav-pills" id="myTabs" role="tablist">
+          <a class="nav-link active" id="education-tab" data-bs-toggle="pill" href="#education" role="tab"
+            aria-controls="education" aria-selected="true">Education</a>
+          <a class="nav-link" id="certifications-tab" data-bs-toggle="pill" href="#certifications" role="tab"
+            aria-controls="certifications" aria-selected="false">Certifications</a>
+          <a class="nav-link" id="experience-tab" data-bs-toggle="pill" href="#experience" role="tab"
+            aria-controls="experience" aria-selected="false">Experience</a>
+          <a class="nav-link" id="skills-tab" data-bs-toggle="pill" href="#skills" role="tab" aria-controls="skills"
+            aria-selected="false">Skills</a>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="tab-content" id="myTabsContent">
+
+          <!-- Tab Content -->
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="education" role="tabpanel" aria-labelledby="education-tab">
+              <div class="row">
+                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
+                <div class="col-md-4 year">Year - Year</div>
+              </div>
+              <p>University ABC</p>
+              <p>Description of education</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
+                <div class="col-md-4 year">Year - Year</div>
+              </div>
+              <p>University ABC</p>
+              <p>Description of education</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
+                <div class="col-md-4 year">Year - Year</div>
+              </div>
+              <p>University ABC</p>
+              <p>Description of education</p>
+            </div>
+            <div class="tab-pane fade" id="certifications" role="tabpanel" aria-labelledby="certifications-tab">
+              <div class="row">
+                <div class="col-md-8 entity-title">Certified Web Developer</div>
+                <div class="col-md-4 year">Year</div>
+              </div>
+              <p>Certification Body</p>
+              <p>Description of certification</p>
+            </div>
+            <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+              <div class="row">
+                <div class="col-md-8 entity-title">Web Developer</div>
+                <div class="col-md-4 year">Year - Present</div>
+              </div>
+              <p>Company ABC</p>
+              <p>Description of experience</p>
+            </div>
+            <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+              <h4>Skills</h4>
+              <p>HTML, CSS, JavaScript</p>
+              <p>Bootstrap, jQuery</p>
+              <p>Web Design, Responsive Design</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-bottom text-center">
+    <a href="https://www.linkedin.com/" target="_blank" class="btn btn-primary mx-2">
+      <i class="bi bi-linkedin"></i> LinkedIn
+    </a>
+    <a href="https://github.com/" target="_blank" class="btn btn-dark mx-2">
+      <i class="bi bi-github"></i> GitHub
+    </a>
+  </div>
+
+  <!-- Bootstrap JS and FontAwesome icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
