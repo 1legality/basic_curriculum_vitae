@@ -4,11 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Name - Curriculum Vitae</title>
+  <title>Marc-André Landry, B.ing - Curriculum Vitae</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
   <!-- Bootstrap Icons CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Devicons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
   <style>
     .year {
@@ -42,25 +44,17 @@
       background-color: #f8f9fa;
     }
 
-    /* Vertical pills */
-    /* .nav-pills .nav-link {
-      border-radius: 0;
+    /* Remove underline from anchor tags */
+    .badge {
+      text-decoration: none;
     }
-
-    .nav-pills .nav-link.active {
-      background-color: #f8f9fa; /* Active tab background color */
-    color: #000;
-    /* Active tab text color */
-    }
-
-    */
   </style>
 </head>
 
 <body>
 
   <div class="text-center fixed-top mb-4">
-    <h1>Your Name</h1>
+    <h1>Marc-André Landry, B.ing</h1>
     <p>Curriculum Vitae</p>
   </div>
 
@@ -69,13 +63,13 @@
       <div class="col-md-3">
         <div class="nav flex-column nav-pills" id="myTabs" role="tablist">
           <a class="nav-link active" id="education-tab" data-bs-toggle="pill" href="#education" role="tab"
-            aria-controls="education" aria-selected="true">Education</a>
+             aria-controls="education" aria-selected="true">Education</a>
           <a class="nav-link" id="certifications-tab" data-bs-toggle="pill" href="#certifications" role="tab"
-            aria-controls="certifications" aria-selected="false">Certifications</a>
-          <a class="nav-link" id="experience-tab" data-bs-toggle="pill" href="#experience" role="tab"
-            aria-controls="experience" aria-selected="false">Experience</a>
+             aria-controls="certifications" aria-selected="false">Certifications</a>
+          <!--<a class="nav-link" id="experience-tab" data-bs-toggle="pill" href="#experience" role="tab"
+            aria-controls="experience" aria-selected="false">Experience</a>-->
           <a class="nav-link" id="skills-tab" data-bs-toggle="pill" href="#skills" role="tab" aria-controls="skills"
-            aria-selected="false">Skills</a>
+             aria-selected="false">Skills</a>
         </div>
       </div>
       <div class="col-md-9">
@@ -85,48 +79,126 @@
           <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="education" role="tabpanel" aria-labelledby="education-tab">
               <div class="row">
-                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
-                <div class="col-md-4 year">Year - Year</div>
+                <div class="col-md-8 entity-title">
+                  <a href="https://www.etsmtl.ca/etudes/premier-cycle/baccalaureat-genie-logiciel" target="_blank" rel="noopener noreferrer">
+                    Baccalauréat en Génie Logiciel
+                  </a>
+                </div>
+                <div class="col-md-4 year">2016 - 2020</div>
               </div>
-              <p>University ABC</p>
-              <p>Description of education</p>
+              <p>École de Technologie Supérieure</p>
               <hr />
               <div class="row">
-                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
-                <div class="col-md-4 year">Year - Year</div>
+                <div class="col-md-8 entity-title">
+                  <a href="https://www.cegepsth.qc.ca/programme/techniques-de-linformatique-developpement-de-logiciels/" target="_blank" rel="noopener noreferrer">
+                    Techniques de l’informatique
+                  </a>
+                </div>
+                <div class="col-md-4 year">2012 - 2015</div>
               </div>
-              <p>University ABC</p>
-              <p>Description of education</p>
+              <p>Cégep de Saint-Hyacinthe</p>
               <hr />
               <div class="row">
-                <div class="col-md-8 entity-title">Bachelor of Science in Computer Science</div>
-                <div class="col-md-4 year">Year - Year</div>
+                <div class="col-md-8 entity-title">
+                  <a href="https://epsh.qc.ca/formation/representation/" target="_blank" rel="noopener noreferrer">
+                    Administration Représentation (ASP)
+                  </a>
+                </div>
+                <div class="col-md-4 year">2010</div>
               </div>
-              <p>University ABC</p>
-              <p>Description of education</p>
+              <p>École Professionnelle de Saint-Hyacinthe</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://epsh.qc.ca/formation/vente-conseil/" target="_blank" rel="noopener noreferrer">
+                    Administration Vente-conseil
+                  </a>
+                </div>
+                <div class="col-md-4 year">2009 - 2010</div>
+              </div>
+              <p>École Professionnelle de Saint-Hyacinthe</p>
             </div>
+
             <div class="tab-pane fade" id="certifications" role="tabpanel" aria-labelledby="certifications-tab">
               <div class="row">
-                <div class="col-md-8 entity-title">Certified Web Developer</div>
-                <div class="col-md-4 year">Year</div>
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/ai-102/" target="_blank" rel="noopener noreferrer">Azure AI Engineer Associate</a>
+                </div>
+                <div class="col-md-4 year">2023</div>
               </div>
-              <p>Certification Body</p>
-              <p>Description of certification</p>
+              <p>Microsoft</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/az-400/" target="_blank" rel="noopener noreferrer">DevOps Engineer Expert</a>
+                </div>
+                <div class="col-md-4 year">2023</div>
+              </div>
+              <p>Microsoft</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/az-305/" target="_blank" rel="noopener noreferrer">Azure Solutions Architect Expert</a>
+                </div>
+                <div class="col-md-4 year">2023</div>
+              </div>
+              <p>Microsoft</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/az-104/" target="_blank" rel="noopener noreferrer">Azure Administrator Associate</a>
+                </div>
+                <div class="col-md-4 year">2022</div>
+              </div>
+              <p>Microsoft</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/az-204/" target="_blank" rel="noopener noreferrer">Azure Developer Associate</a>
+                </div>
+                <div class="col-md-4 year">2021</div>
+              </div>
+              <p>Microsoft</p>
+              <hr />
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://learn.microsoft.com/en-us/certifications/exams/pl-900/" target="_blank" rel="noopener noreferrer">Power Platform Fundamentals</a>
+                </div>
+                <div class="col-md-4 year">2021</div>
+              </div>
+              <p>Microsoft</p>
             </div>
-            <div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
+
+            <!--<div class="tab-pane fade" id="experience" role="tabpanel" aria-labelledby="experience-tab">
               <div class="row">
                 <div class="col-md-8 entity-title">Web Developer</div>
                 <div class="col-md-4 year">Year - Present</div>
               </div>
               <p>Company ABC</p>
               <p>Description of experience</p>
-            </div>
+            </div>-->
+            <!-- REMOVE THIS SECTION ? -->
             <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-              <h4>Skills</h4>
-              <p>HTML, CSS, JavaScript</p>
-              <p>Bootstrap, jQuery</p>
-              <p>Web Design, Responsive Design</p>
+              <div class="d-flex flex-wrap">
+                <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-csharp-plain"></i> C#</a>
+                <a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-dot-net-plain"></i> .NET</a>
+                <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-microsoftsqlserver-plain"></i> Microsoft SQL Server</a>
+                <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-laravel-plain"></i> Laravel</a>
+              </div>
+              <div class="d-flex flex-wrap">
+                <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-html5-plain"></i> HTML</a>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-css3-plain"></i> CSS</a>
+                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-javascript-plain"></i> JavaScript</a>
+                <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-bootstrap-plain"></i> Bootstrap</a>
+              </div>
+              <div class="d-flex flex-wrap">
+                <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-git-plain"></i> git</a>
+                <a href="https://azure.microsoft.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-azure-plain"></i> Azure</a>
+                <a href="https://www.linux.org/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-linux-plain"></i> Linux</a>
+                <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i class="devicon-docker-plain"></i> Docker</a>
+              </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -134,10 +206,10 @@
   </div>
 
   <div class="fixed-bottom text-center">
-    <a href="https://www.linkedin.com/" target="_blank" class="btn btn-primary mx-2">
+    <a href="https://www.linkedin.com/in/marc-andré-landry-b-ing-37b26b88" target="_blank" class="btn btn-primary mx-2">
       <i class="bi bi-linkedin"></i> LinkedIn
     </a>
-    <a href="https://github.com/" target="_blank" class="btn btn-dark mx-2">
+    <a href="https://github.com/1legality" target="_blank" class="btn btn-dark mx-2">
       <i class="bi bi-github"></i> GitHub
     </a>
   </div>
