@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marc-André Landry | Jurassic Park System</title>
+    <!-- Bootstrap Icons for familiarity, though we'll style them retro -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <!-- Google Fonts for that terminal look -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Roboto:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --fsn-gray: #a8a8a8;
+            --fsn-dark-gray: #7a7a7a;
+            --fsn-border-light: #e0e0e0;
+            --fsn-border-dark: #404040;
+            --fsn-screen-bg: #000000;
+            --fsn-text-green: #33ff33;
+            --fsn-accent-red: #cc0000;
+            --fsn-accent-orange: #ff9900;
+            --fsn-purple: #663399;
+            /* For the classic SGI IRIX look */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #333;
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            /* SGI System Font mostly sans-serif */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Outer Frame imitating the Monitor/OS chrome */
+        .fsn-container {
+            width: 98vw;
+            height: 96vh;
+            background-color: var(--fsn-gray);
+            border: 4px solid var(--fsn-border-light);
+            border-right-color: var(--fsn-border-dark);
+            border-bottom-color: var(--fsn-border-dark);
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            /* 2 Columns: Image/Main & System */
+            grid-template-rows: 1fr 150px;
+            /* Main Content & Bottom Bar */
+            gap: 10px;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Beveled Boxes Helper */
+        .bevel-box {
+            border: 2px solid var(--fsn-border-dark);
+            border-right-color: var(--fsn-border-light);
+            border-bottom-color: var(--fsn-border-light);
+            background-color: var(--fsn-gray);
+            position: relative;
+        }
+
+        .bevel-box-inset {
+            border: 2px solid var(--fsn-border-light);
+            border-right-color: var(--fsn-border-dark);
+            border-bottom-color: var(--fsn-border-dark);
+            background-color: #909090;
+        }
+
+        /* --- Left Panel (The "Photo" Area) --- */
+        .left-panel {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--fsn-border-dark);
+            border-right-color: var(--fsn-border-light);
+            border-bottom-color: var(--fsn-border-light);
+            background: repeating-linear-gradient(45deg,
+                    #e0c3fc 0,
+                    #e0c3fc 10px,
+                    #cbb4e5 10px,
+                    #cbb4e5 20px);
+            /* This is that weird zebra/tiger pattern from the movie, approximated */
+            position: relative;
+        }
+
+        .profile-overlay {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            right: 10%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 20px;
+            border: 2px solid white;
+        }
+
+        .profile-overlay h1 {
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            font-size: 2rem;
+            margin: 0;
+            text-shadow: 2px 2px 0px #000;
+        }
+
+        .profile-overlay h2 {
+            font-family: 'VT323', monospace;
+            color: var(--fsn-accent-orange);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .big-logo {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 100px;
+            height: 100px;
+            background: yellow;
+            /* Placeholder */
+            border-radius: 50%;
+            border: 5px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: red;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+            transform: rotate(-10deg);
+        }
+
+        /* --- Right Panel (Top Monitor) --- */
+        .right-top {
+            grid-column: 2;
+            grid-row: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .monitor-frame {
+            flex-grow: 1;
+            background-color: #555;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            border: 4px solid var(--fsn-border-dark);
+            border-right-color: var(--fsn-border-light);
+            border-bottom-color: var(--fsn-border-light);
+        }
+
+        .monitor-screen {
+            flex-grow: 1;
+            background-color: var(--fsn-screen-bg);
+            border: 2px solid #222;
+            padding: 20px;
+            color: var(--fsn-text-green);
+            font-family: 'VT323', monospace;
+            font-size: 1.2rem;
+            overflow-y: auto;
+            text-shadow: 0 0 5px var(--fsn-text-green);
+            position: relative;
+        }
+
+        /* CRT Scanline Effect */
+        .monitor-screen::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* --- Right Panel (Controls - Middle) --- */
+        .controls-panel {
+            height: 120px;
+            background-color: var(--fsn-gray);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+            padding: 5px;
+        }
+
+        .control-btn {
+            background-color: #c0c0c0;
+            /* Super chunky bevels */
+            border: 4px solid #ffffff;
+            border-right-color: #404040;
+            border-bottom-color: #404040;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
+            font-weight: 900;
+            color: #222;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Industrial font */
+            font-family: 'Arial Black', 'Verdana', sans-serif;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            transition: all 0.05s;
+        }
+
+        .control-btn:hover {
+            background-color: #dcdcdc;
+        }
+
+        .control-btn:active,
+        .control-btn.active {
+            /* Inverted "Lit" state or physically depressed */
+            border: 4px solid #404040;
+            border-right-color: #ffffff;
+            border-bottom-color: #ffffff;
+            background-color: #a0a0a0;
+            color: #ffff00;
+            /* Yellow text for active status */
+            text-shadow: 0px 0px 5px #ff9900;
+            transform: translateY(2px);
+            box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-btn i {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            filter: drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.5));
+        }
+
+        /* --- Bottom Bar --- */
+        /* --- Bottom Bar --- */
+        .bottom-bar {
+            grid-column: 2;
+            grid-row: 2;
+            border-top: 4px solid var(--fsn-border-dark);
+            padding-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            /* 3 Equal Columns */
+            gap: 10px;
+        }
+
+        /* Removed .message-box styles as it is deleted */
+
+        .execute-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .execute-btn {
+            background-color: var(--fsn-accent-red);
+            color: white;
+            border: 5px solid #ff6666;
+            border-right-color: #990000;
+            border-bottom-color: #990000;
+            width: 100%;
+            height: 100%;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.2rem;
+            /* Slightly smaller to fit longer text */
+            text-transform: uppercase;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px black;
+            display: flex;
+            flex-direction: column;
+            /* Stack icon and text */
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.1s;
+        }
+
+        .execute-btn:hover {
+            background-color: #bd0202;
+        }
+
+        .execute-btn:active {
+            border: 5px solid #990000;
+            border-right-color: #ff6666;
+            border-bottom-color: #ff6666;
+            transform: translateY(2px);
+        }
+
+        .execute-btn i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .message-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .status-badge {
+            background-color: #7aff7a;
+            color: black;
+            padding: 2px 5px;
+            margin-right: 10px;
+            font-size: 0.8rem;
+            border: 1px solid gray;
+        }
+
+        .execute-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .execute-btn {
+            background-color: var(--fsn-accent-red);
+            color: white;
+            border: 5px solid #ff6666;
+            border-right-color: #990000;
+            border-bottom-color: #990000;
+            width: 100%;
+            height: 100%;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .execute-btn:hover {
+            background-color: #bd0202;
+        }
+
+        /* Scrollbar Styling for Screen */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #333;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Logic Content Classes */
+        .screen-content {
+            display: none;
+        }
+
+        .screen-content.active {
+            display: block;
+        }
+
+        /* Content Styling */
+        h3 {
+            border-bottom: 1px dashed var(--fsn-text-green);
+            padding-bottom: 5px;
+            margin-top: 0;
+        }
+
+        .year-tag {
+            float: right;
+            color: var(--fsn-accent-orange);
+        }
+
+        .entity-link {
+            color: var(--fsn-text-green);
+            text-decoration: none;
+            border-bottom: 1px dotted var(--fsn-text-green);
+        }
+
+        .entity-link:hover {
+            background-color: var(--fsn-text-green);
+            color: black;
+        }
+
+        ul {
+            list-style-type: square;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            border: 1px solid var(--fsn-text-green);
+            padding: 2px 6px;
+            margin: 2px;
+            font-size: 0.9em;
+        }
+
+        /* Boot Sequence Animation */
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        /* Responsive Handling - Mobile Stack Layout */
+        @media (max-width: 900px) {
+            body {
+                height: auto;
+                overflow-y: auto;
+                padding: 10px;
+                background-color: #222;
+            }
+
+            .fsn-container {
+                width: 100%;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                border: 2px solid var(--fsn-border-light);
+                padding: 5px;
+                gap: 15px;
+                transform: none;
+                /* Reset any transforms */
+            }
+
+            /* Reorder: Profile top, Monitor middle, Controls below */
+            /* Reorder: Profile top, Monitor middle, Controls below */
+            .left-panel {
+                grid-column: auto;
+                grid-row: auto;
+                /* Allow height to grow with content */
+                height: auto;
+                min-height: 150px;
+                padding-bottom: 20px;
+                order: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .profile-overlay {
+                /* Switch to relative so parent grows */
+                position: relative;
+                top: auto;
+                left: auto;
+                right: auto;
+                margin: 10px;
+                padding: 10px;
+                border: 1px solid white;
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            .profile-overlay h1 {
+                font-size: 1.5rem;
+            }
+
+            .profile-overlay h2 {
+                font-size: 1.2rem;
+            }
+
+            .big-logo {
+                width: 60px;
+                height: 60px;
+                bottom: 5px;
+                left: auto;
+                right: 5px;
+                font-size: 0.6rem;
+            }
+
+            .right-top {
+                grid-column: auto;
+                grid-row: auto;
+                order: 2;
+            }
+
+            .monitor-frame {
+                height: 400px;
+                /* Fixed height for scrollable content */
+                min-height: 50vh;
+            }
+
+            .monitor-screen {
+                font-size: 1rem;
+            }
+
+            .controls-panel {
+                grid-template-columns: repeat(2, 1fr);
+                height: auto;
+                gap: 10px;
+                order: 3;
+                margin-top: 10px;
+            }
+
+            .control-btn {
+                /* Taller buttons to fit icon + text + chunky borders */
+                height: 80px;
+                font-size: 0.9rem;
+            }
+
+            .control-btn i {
+                font-size: 1.5rem;
+                margin-bottom: 2px;
+            }
+
+            .bottom-bar {
+                grid-column: auto;
+                grid-row: auto;
+                order: 4;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .execute-btn {
+                height: 60px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="fsn-container">
+
+        <!-- LEFT PANEL: Visual Identity -->
+        <div class="left-panel">
+
+            <div class="profile-overlay">
+                <h1>Marc-André Landry</h1>
+                <h2>B.ing - Logiciel</h2>
+                <div style="margin-top: 20px; font-family: monospace; font-size: 1rem;">
+                    > SYSTEM_STATUS: ONLINE<br>
+                    > SECURITY_LEVEL: BACCALAUREAT<br>
+                    > LOCATION: QUEBEC_SECTOR<br>
+                </div>
+            </div>
+
+            <!-- The Big "Jurassic Park" Logo style badge -->
+            <!-- <div class="big-logo">
+        <div style="text-align: center; font-family: sans-serif; font-size: 0.8rem;">
+          CV<br>SYSTEM
+        </div>
+      </div> -->
+
+        </div>
+
+        <!-- RIGHT TOP: Monitor Viewport -->
+        <div class="right-top">
+            <div class="monitor-frame">
+                <div style="color:white; margin-bottom: 5px; display:flex; justify-content: space-between;">
+                    <span><i class="bi bi-display"></i> CV_VIEWER_V1.0</span>
+                    <span>MEM: 64MB OK</span>
+                </div>
+                <div class="monitor-screen" id="main-monitor">
+
+                    <!-- BOOT SCREEN -->
+                    <div id="content-boot" class="screen-content active">
+                        <p>Initializing System...</p>
+                        <p>Loading Kernel... Done.</p>
+                        <p>Mounting User Profile... Done.</p>
+                        <br>
+                        <p>WELCOME TO LANDRY SYSTEM.</p>
+                        <p>SELECT A MODULE TO BEGIN.</p>
+                        <br>
+                        <span class="cursor">_</span>
+                    </div>
+
+                    <!-- EDUCATION -->
+                    <div id="content-education" class="screen-content">
+                        <h3>> EDUCATION_LOG</h3>
+                        <br>
+
+                        <div>
+                            <span class="year-tag">2016 - 2020</span>
+                            <strong>Baccalauréat en Génie Logiciel</strong><br>
+                            <a href="https://www.etsmtl.ca/etudes/premier-cycle/baccalaureat-genie-logiciel"
+                                target="_blank" class="entity-link">École de Technologie Supérieure</a>
+                        </div>
+                        <br>
+                        <div>
+                            <span class="year-tag">2012 - 2015</span>
+                            <strong>Techniques de l’informatique</strong><br>
+                            <a href="https://www.cegepsth.qc.ca/programme/techniques-de-linformatique-developpement-de-logiciels/"
+                                target="_blank" class="entity-link">Cégep de Saint-Hyacinthe</a>
+                        </div>
+                        <br>
+                        <div>
+                            <span class="year-tag">2010</span>
+                            <strong>Administration Représentation (ASP)</strong><br>
+                            <a href="https://epsh.qc.ca/formation/representation/" target="_blank"
+                                class="entity-link">École
+                                Professionnelle de Saint-Hyacinthe</a>
+                        </div>
+                        <br>
+                        <div>
+                            <span class="year-tag">2009 - 2010</span>
+                            <strong>Administration Vente-conseil</strong><br>
+                            <a href="https://epsh.qc.ca/formation/vente-conseil/" target="_blank"
+                                class="entity-link">École
+                                Professionnelle de Saint-Hyacinthe</a>
+                        </div>
+                    </div>
+
+                    <!-- CERTIFICATIONS -->
+                    <div id="content-certs" class="screen-content">
+                        <h3>> CERTIFICATION_DB</h3>
+                        <br>
+                        <ul>
+                            <li>
+                                <span class="year-tag">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/dp-420/"
+                                    class="entity-link">Azure Cosmos DB Specialty</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/ai-102/"
+                                    class="entity-link">Azure AI
+                                    Engineer Associate</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-400/"
+                                    class="entity-link">DevOps
+                                    Engineer Expert</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-305/"
+                                    class="entity-link">Azure
+                                    Solutions Architect Expert</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2022</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-104/"
+                                    class="entity-link">Azure
+                                    Administrator Associate</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-204/"
+                                    class="entity-link">Azure
+                                    Developer Associate</a>
+                            </li>
+                            <li>
+                                <span class="year-tag">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/pl-900/"
+                                    class="entity-link">Power
+                                    Platform Fundamentals</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- SKILLS -->
+                    <div id="content-skills" class="screen-content">
+                        <h3>> SKILL_MATRIX</h3>
+                        <br>
+                        <p><strong>LANGUAGES & FRAMEWORKS:</strong></p>
+                        <div>
+                            <span class="skill-tag"><i class="devicon-csharp-plain"></i> C#</span>
+                            <span class="skill-tag"><i class="devicon-dot-net-plain"></i> .NET</span>
+                            <span class="skill-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                            <span class="skill-tag"><i class="devicon-html5-plain"></i> HTML/CSS</span>
+                            <span class="skill-tag"><i class="devicon-laravel-plain"></i> Laravel</span>
+                        </div>
+                        <br>
+                        <p><strong>INFRASTRUCTURE & TOOLS:</strong></p>
+                        <div>
+                            <span class="skill-tag"><i class="devicon-azure-plain"></i> Azure</span>
+                            <span class="skill-tag"><i class="devicon-docker-plain"></i> Docker</span>
+                            <span class="skill-tag"><i class="devicon-git-plain"></i> Git</span>
+                            <span class="skill-tag"><i class="devicon-linux-plain"></i> Linux</span>
+                            <span class="skill-tag"><i class="devicon-microsoftsqlserver-plain"></i> SQL Server</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CONTROLS -->
+            <div class="controls-panel">
+                <button class="control-btn" onclick="showScreen('content-education', this)">
+                    <i class="bi bi-mortarboard-fill"></i> EDU
+                </button>
+                <button class="control-btn" onclick="showScreen('content-certs', this)">
+                    <i class="bi bi-award-fill"></i> CERTS
+                </button>
+                <button class="control-btn" onclick="showScreen('content-skills', this)">
+                    <i class="bi bi-cpu-fill"></i> SKILLS
+                </button>
+                <button class="control-btn active" onclick="showScreen('content-boot', this)">
+                    <i class="bi bi-terminal-fill"></i> MAIN
+                </button>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM BAR -->
+        <div class="bottom-bar">
+            <a href="https://lab.malandry.com" target="_blank" class="execute-btn">
+                MUSIC LAB
+            </a>
+            <a href="https://www.linkedin.com/in/marc-andr%C3%A9-landry-b-ing-37b26b88/" target="_blank"
+                class="execute-btn">
+                LINKEDIN
+            </a>
+            <a href="https://github.com/1legality" target="_blank" class="execute-btn">
+                GITHUB
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        function showScreen(screenId, btnElement) {
+            // Hide all screens
+            const screens = document.querySelectorAll('.screen-content');
+            screens.forEach(s => s.classList.remove('active'));
+
+            // Show target screen
+            document.getElementById(screenId).classList.add('active');
+
+            // Update buttons state
+            const buttons = document.querySelectorAll('.control-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
