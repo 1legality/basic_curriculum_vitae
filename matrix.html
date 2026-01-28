@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marc-André Landry // SYSTEM ACCESS</title>
+    <meta name="description"
+        content="Marc-André Landry - Software Engineer Portfolio | Azure Certified | Full-Stack Developer">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+    <!-- Fonts: Terminal/BBS typography -->
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Matrix Palette - GREEN phosphor */
+            --matrix-green: #00FF41;
+            --matrix-green-dim: #00CC33;
+            --matrix-green-glow: rgba(0, 255, 65, 0.6);
+            --matrix-green-dark: #003B00;
+            --matrix-cyan: #00FFCC;
+            --matrix-white: #CCFFCC;
+            --matrix-amber: #FFCC00;
+
+            /* Deep black backgrounds */
+            --bg-void: #000000;
+            --bg-terminal: #0D0D0D;
+            --bg-panel: rgba(0, 20, 0, 0.85);
+            --border-green: rgba(0, 255, 65, 0.4);
+
+            /* Text */
+            --text-primary: #00FF41;
+            --text-dim: #00AA2A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg-void);
+            font-family: 'VT323', monospace;
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            font-size: 18px;
+        }
+
+        /* ========== MATRIX DIGITAL RAIN ========== */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .rain-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            line-height: 1;
+            color: var(--matrix-green);
+            text-shadow: 0 0 10px var(--matrix-green-glow);
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            animation: matrix-fall linear infinite;
+            opacity: 0.4;
+        }
+
+        .rain-column span {
+            display: block;
+            opacity: 0;
+            animation: char-fade 0.5s ease-in forwards;
+        }
+
+        .rain-column span:first-child {
+            color: var(--matrix-white);
+            text-shadow: 0 0 20px var(--matrix-white);
+        }
+
+        @keyframes matrix-fall {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(200vh);
+            }
+        }
+
+        @keyframes char-fade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ========== CRT EFFECTS ========== */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Scanlines */
+        .crt-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15) 0px,
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+        }
+
+        /* Screen flicker */
+        .crt-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 65, 0.02);
+            animation: crt-flicker 0.1s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes crt-flicker {
+
+            0%,
+            100% {
+                opacity: 0.97;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Vignette effect */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            background: radial-gradient(ellipse at center,
+                    transparent 0%,
+                    transparent 60%,
+                    rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .terminal-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            grid-template-rows: 1fr auto;
+            gap: 20px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== ASCII PANEL STYLE ========== */
+        .ascii-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--matrix-green);
+            box-shadow:
+                0 0 15px var(--matrix-green-glow),
+                inset 0 0 50px rgba(0, 255, 65, 0.03);
+            position: relative;
+        }
+
+        /* ASCII corner decorations */
+        .ascii-panel::before {
+            content: '┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            color: var(--matrix-green);
+            font-size: 10px;
+            overflow: hidden;
+            width: calc(100% + 2px);
+            white-space: nowrap;
+        }
+
+        .ascii-panel::after {
+            content: '└─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────';
+            position: absolute;
+            bottom: -1px;
+            left: -1px;
+            color: var(--matrix-green);
+            font-size: 10px;
+            overflow: hidden;
+            width: calc(100% + 2px);
+            white-space: nowrap;
+        }
+
+        /* ========== LEFT PANEL: IDENTITY ========== */
+        .identity-panel {
+            grid-row: 1 / span 2;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Binary decoration */
+        .binary-decoration {
+            position: absolute;
+            font-family: 'VT323', monospace;
+            color: var(--matrix-green-dark);
+            opacity: 0.3;
+            font-size: 12px;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            writing-mode: vertical-rl;
+            letter-spacing: 2px;
+            line-height: 1.5;
+        }
+
+        .profile-header {
+            margin-bottom: 30px;
+        }
+
+        .access-granted {
+            font-family: 'VT323', monospace;
+            font-size: 12px;
+            color: var(--matrix-green-dim);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .access-granted::before {
+            content: '> ';
+        }
+
+        .main-name {
+            font-family: 'VT323', monospace;
+            font-size: 3rem;
+            font-weight: 400;
+            color: var(--matrix-green);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow:
+                0 0 10px var(--matrix-green-glow),
+                0 0 20px var(--matrix-green-glow),
+                0 0 40px var(--matrix-green-glow);
+            animation: text-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from {
+                text-shadow:
+                    0 0 10px var(--matrix-green-glow),
+                    0 0 20px var(--matrix-green-glow);
+            }
+
+            to {
+                text-shadow:
+                    0 0 15px var(--matrix-green-glow),
+                    0 0 30px var(--matrix-green-glow),
+                    0 0 50px var(--matrix-green-glow);
+            }
+        }
+
+        .subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--matrix-green-dim);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-top: 10px;
+        }
+
+        /* Terminal status block */
+        .status-block {
+            margin-top: 40px;
+            padding: 15px;
+            border: 1px dashed var(--matrix-green);
+            background: rgba(0, 255, 65, 0.02);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .status-block::before {
+            content: '╔══════════════════════════════════════╗';
+            display: block;
+            color: var(--matrix-green-dim);
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+
+        .status-block::after {
+            content: '╚══════════════════════════════════════╝';
+            display: block;
+            color: var(--matrix-green-dim);
+            font-size: 10px;
+            margin-top: 10px;
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 0.95rem;
+        }
+
+        .status-label {
+            color: var(--matrix-cyan);
+            min-width: 130px;
+        }
+
+        .status-label::before {
+            content: '│ ';
+            color: var(--matrix-green-dim);
+        }
+
+        .status-value {
+            color: var(--matrix-green);
+        }
+
+        .blink-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--matrix-green);
+            animation: blink-glow 1s infinite;
+        }
+
+        @keyframes blink-glow {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* ASCII art decoration */
+        .ascii-art {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-size: 10px;
+            color: var(--matrix-green-dark);
+            opacity: 0.5;
+            white-space: pre;
+            line-height: 1.2;
+        }
+
+        /* ========== RIGHT TOP: MONITOR ========== */
+        .monitor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .monitor-chrome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .monitor-header {
+            background: linear-gradient(90deg, var(--bg-terminal), transparent);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--matrix-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .monitor-title {
+            color: var(--matrix-green);
+            font-family: 'VT323', monospace;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .monitor-title i {
+            font-size: 1rem;
+        }
+
+        .monitor-stats {
+            color: var(--matrix-green-dim);
+            font-size: 0.85rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .monitor-stats span {
+            margin-left: 15px;
+        }
+
+        .monitor-screen {
+            flex: 1;
+            background: linear-gradient(180deg, #000500 0%, #001000 100%);
+            border: 1px solid var(--border-green);
+            padding: 25px;
+            min-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Phosphor glow on screen */
+        .monitor-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center,
+                    rgba(0, 255, 65, 0.03) 0%,
+                    transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ========== SCREEN CONTENT ========== */
+        .screen-content {
+            display: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .screen-content.active {
+            display: block;
+            animation: terminal-type 0.3s ease;
+        }
+
+        @keyframes terminal-type {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-header {
+            font-family: 'VT323', monospace;
+            color: var(--matrix-green);
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed var(--matrix-green-dim);
+            text-shadow: 0 0 10px var(--matrix-green-glow);
+        }
+
+        .content-header::before {
+            content: 'root@matrix:~# ';
+            color: var(--matrix-cyan);
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 12px;
+            height: 20px;
+            background: var(--matrix-green);
+            animation: cursor-flash 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+            box-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        @keyframes cursor-flash {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Boot screen */
+        #content-boot p {
+            margin: 4px 0;
+            color: var(--matrix-green);
+            font-size: 1rem;
+        }
+
+        #content-boot p::before {
+            content: '> ';
+            color: var(--matrix-green-dim);
+        }
+
+        #content-boot .boot-ok {
+            color: var(--matrix-green);
+            font-weight: bold;
+        }
+
+        #content-boot .boot-warning {
+            color: var(--matrix-amber);
+        }
+
+        .red-pill {
+            color: #FF3333;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.8);
+        }
+
+        /* Entry items */
+        .entry-item {
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 2px solid var(--matrix-green);
+            position: relative;
+        }
+
+        .entry-item::before {
+            content: '►';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            color: var(--matrix-green);
+            font-size: 12px;
+        }
+
+        .entry-year {
+            display: inline-block;
+            background: var(--matrix-green);
+            color: var(--bg-void);
+            padding: 2px 10px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .entry-title {
+            color: var(--matrix-white);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .entry-link {
+            color: var(--matrix-cyan);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .entry-link:hover {
+            color: var(--matrix-white);
+            text-shadow: 0 0 10px var(--matrix-cyan);
+        }
+
+        /* Certification list */
+        .cert-list {
+            list-style: none;
+        }
+
+        .cert-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--matrix-green-dark);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cert-list li::before {
+            content: '[✓]';
+            color: var(--matrix-green);
+        }
+
+        .cert-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cert-year {
+            background: var(--matrix-green);
+            color: var(--bg-void);
+            padding: 2px 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .cert-link {
+            color: var(--matrix-cyan);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cert-link:hover {
+            color: var(--matrix-white);
+            text-shadow: 0 0 8px var(--matrix-cyan);
+        }
+
+        /* Skills - BBS Box Style */
+        .skill-category {
+            margin-bottom: 25px;
+            font-family: 'VT323', monospace;
+        }
+
+        .skill-box {
+            border: 1px solid var(--matrix-green);
+            background: rgba(0, 255, 65, 0.02);
+            position: relative;
+            padding: 20px;
+        }
+
+        .skill-box-header {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--bg-terminal);
+            padding: 0 10px;
+            color: var(--matrix-amber);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .skill-box-header::before {
+            content: '[ ';
+            color: var(--matrix-green);
+        }
+
+        .skill-box-header::after {
+            content: ' ]';
+            color: var(--matrix-green);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 5px;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--matrix-green);
+            font-size: 1rem;
+            padding: 4px 0;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            color: var(--matrix-white);
+            text-shadow: 0 0 8px var(--matrix-green-glow);
+        }
+
+        .skill-tag i {
+            font-size: 1.2rem;
+            color: var(--matrix-green-dim);
+        }
+
+        .skill-tag:hover i {
+            color: var(--matrix-green);
+        }
+
+        /* ========== CONTROLS ========== */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .ctrl-btn {
+            background: transparent;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 15px 10px;
+            cursor: pointer;
+            font-family: 'VT323', monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ctrl-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            transition: left 0.4s;
+        }
+
+        .ctrl-btn:hover::before {
+            left: 100%;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 20px var(--matrix-green-glow);
+        }
+
+        .ctrl-btn.active {
+            background: var(--matrix-green);
+            color: var(--bg-void);
+            box-shadow:
+                0 0 20px var(--matrix-green-glow),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .ctrl-btn.active i {
+            color: var(--bg-void);
+        }
+
+        .ctrl-btn i {
+            font-size: 1.4rem;
+            color: var(--matrix-green);
+        }
+
+        /* ========== BOTTOM BAR ========== */
+        .bottom-bar {
+            grid-column: 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: 300px;
+            gap: 15px;
+        }
+
+        .link-btn {
+            background: transparent;
+            border: 2px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--matrix-green);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s;
+            z-index: -1;
+        }
+
+        .link-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        .link-btn:hover {
+            color: var(--bg-void);
+            box-shadow: 0 0 30px var(--matrix-green-glow);
+        }
+
+        .link-btn i {
+            font-size: 1.5rem;
+        }
+
+        .link-btn .ascii-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-void);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--matrix-green);
+            border: 1px solid var(--bg-void);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--matrix-green-dim);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 900px) {
+            .terminal-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                padding: 10px;
+            }
+
+            .identity-panel {
+                grid-row: auto;
+                min-height: auto;
+                padding: 20px;
+            }
+
+            .binary-decoration {
+                font-size: 10px;
+                right: 5px;
+            }
+
+            .main-name {
+                font-size: 2rem;
+            }
+
+            .monitor-section {
+                grid-row: auto;
+            }
+
+            .monitor-screen {
+                min-height: 350px;
+            }
+
+            .controls-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bottom-bar {
+                grid-column: 1;
+                grid-template-columns: 1fr;
+            }
+
+            .ascii-art {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Matrix Digital Rain -->
+    <div class="matrix-rain" id="matrix-rain"></div>
+
+    <!-- CRT Overlay Effects -->
+    <div class="crt-overlay"></div>
+    <div class="vignette"></div>
+
+    <div class="terminal-container">
+
+        <!-- LEFT PANEL: Identity -->
+        <div class="identity-panel ascii-panel">
+
+            <!-- Binary decoration -->
+            <div class="binary-decoration">
+                01001101 01000001<br>
+                01010100 01010010<br>
+                01001001 01011000<br>
+                00110001 00111001<br>
+                00111001 00111001
+            </div>
+
+            <div class="profile-header">
+                <div class="access-granted">ACCESS GRANTED // CLEARANCE LEVEL 7</div>
+                <h1 class="main-name">Marc-André Landry</h1>
+                <div class="subtitle">B.Eng. in Software Engineering</div>
+            </div>
+
+            <div class="status-block">
+                <div class="status-line">
+                    <span class="blink-dot"></span>
+                    <span class="status-label">STATUS</span>
+                    <span class="status-value">ONLINE</span>
+                </div>
+                <div class="status-line">
+                    <span class="blink-dot"></span>
+                    <span class="status-label">FUNCTION</span>
+                    <span class="status-value">SENIOR.DEVELOPER</span>
+                </div>
+                <div class="status-line">
+                    <span class="blink-dot"></span>
+                    <span class="status-label">LOCATION</span>
+                    <span class="status-value">QUÉBEC.NODE</span>
+                </div>
+                <div class="status-line">
+                    <span class="blink-dot"></span>
+                    <span class="status-label">CLEARANCE</span>
+                    <span class="status-value">AZURE.CERTIFIED</span>
+                </div>
+            </div>
+
+            <!-- ASCII art -->
+            <div class="ascii-art">
+                ██╗ ██╗ ██╗
+                ████╗ ███╗ ███║
+                ██╔████╔██╔████║
+                ██║╚██╔╝██║╚██╔╝
+                ██║ ╚═╝ ██║ ╚═╝
+                ╚═╝ ╚═╝
+            </div>
+        </div>
+
+        <!-- RIGHT TOP: Monitor Section -->
+        <div class="monitor-section">
+            <div class="monitor-chrome ascii-panel">
+                <div class="monitor-header">
+                    <div class="monitor-title">
+                        <i class="bi bi-terminal-fill"></i>
+                        ZION_MAINFRAME v3.0.1
+                    </div>
+                    <div class="monitor-stats">
+                        <span>MEM: 256GB</span>
+                        <span>NET: ENCRYPTED</span>
+                        <span>PID: 0xC0DE</span>
+                    </div>
+                </div>
+                <div class="monitor-screen" id="main-monitor">
+
+                    <!-- BOOT SCREEN -->
+                    <div id="content-boot" class="screen-content active">
+                        <p>INITIATING NEURAL HANDSHAKE...</p>
+                        <p>DECRYPTING BROADCAST SIGNAL... <span class="boot-ok">[OK]</span></p>
+                        <p>LOADING IDENTITY CONSTRUCT... <span class="boot-ok">[OK]</span></p>
+                        <p>BYPASSING SENTINEL FIREWALL... <span class="boot-ok">[OK]</span></p>
+                        <p>TRACE PROGRAM STATUS... <span class="boot-warning">[MONITORING]</span></p>
+                        <br>
+                        <p style="color: var(--matrix-white);">WELCOME TO THE REAL WORLD</p>
+                        <p>OPERATOR: Senior Developer // 10+ yrs // Azure & .NET Specialist</p>
+                        <p>CONSTRUCT LOADED: LANDRY_SYSTEMS v2.0.26</p>
+                        <p>SELECT DATA NODE TO ACCESS...</p>
+                        <br>
+                        <p style="opacity: 0.4; font-size: 0.9em;">...follow the white rabbit...</p>
+                        <br>
+                        <p>AWAITING INPUT<span class="cursor-blink"></span></p>
+                    </div>
+
+                    <!-- EDUCATION -->
+                    <div id="content-education" class="screen-content">
+                        <div class="content-header">cat education.log</div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2016 - 2020</div>
+                            <div class="entry-title">Baccalauréat en Génie Logiciel</div>
+                            <a href="https://www.etsmtl.ca/etudes/premier-cycle/baccalaureat-genie-logiciel"
+                                target="_blank" class="entry-link">
+                                École de Technologie Supérieure →
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2012 - 2015</div>
+                            <div class="entry-title">Techniques de l'informatique</div>
+                            <a href="https://www.cegepsth.qc.ca/programme/techniques-de-linformatique-developpement-de-logiciels/"
+                                target="_blank" class="entry-link">
+                                Cégep de Saint-Hyacinthe →
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2010</div>
+                            <div class="entry-title">Administration Représentation (ASP)</div>
+                            <a href="https://epsh.qc.ca/formation/representation/" target="_blank" class="entry-link">
+                                École Professionnelle de Saint-Hyacinthe →
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2009 - 2010</div>
+                            <div class="entry-title">Administration Vente-conseil</div>
+                            <a href="https://epsh.qc.ca/formation/vente-conseil/" target="_blank" class="entry-link">
+                                École Professionnelle de Saint-Hyacinthe →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CERTIFICATIONS -->
+                    <div id="content-certs" class="screen-content">
+                        <div class="content-header">ls -la /certs/</div>
+
+                        <ul class="cert-list">
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/dp-420/"
+                                    target="_blank" class="cert-link">
+                                    Azure Cosmos DB Specialty →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/ai-102/" target="_blank"
+                                    class="cert-link">
+                                    Azure AI Engineer Associate →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-400/" target="_blank"
+                                    class="cert-link">
+                                    DevOps Engineer Expert →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-305/" target="_blank"
+                                    class="cert-link">
+                                    Azure Solutions Architect Expert →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2022</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-104/" target="_blank"
+                                    class="cert-link">
+                                    Azure Administrator Associate →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-204/" target="_blank"
+                                    class="cert-link">
+                                    Azure Developer Associate →
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/pl-900/" target="_blank"
+                                    class="cert-link">
+                                    Power Platform Fundamentals →
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- SKILLS -->
+                    <div id="content-skills" class="screen-content">
+                        <div class="content-header">./skills --list</div>
+
+                        <div class="skill-category">
+                            <div class="skill-box">
+                                <div class="skill-box-header">LANGUAGES & FRAMEWORKS</div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag"><i class="devicon-csharp-plain"></i> C#</span>
+                                    <span class="skill-tag"><i class="devicon-dot-net-plain"></i> .NET</span>
+                                    <span class="skill-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                                    <span class="skill-tag"><i class="devicon-html5-plain"></i> HTML/CSS</span>
+                                    <span class="skill-tag"><i class="devicon-laravel-plain"></i> Laravel</span>
+                                    <span class="skill-tag"><i class="devicon-cplusplus-plain"></i> JUCE</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <div class="skill-box">
+                                <div class="skill-box-header">INFRASTRUCTURE & TOOLS</div>
+                                <div class="skill-tags">
+                                    <span class="skill-tag"><i class="devicon-azure-plain"></i> Azure</span>
+                                    <span class="skill-tag"><i class="devicon-docker-plain"></i> Docker</span>
+                                    <span class="skill-tag"><i class="devicon-git-plain"></i> Git</span>
+                                    <span class="skill-tag"><i class="devicon-linux-plain"></i> Linux</span>
+                                    <span class="skill-tag"><i class="devicon-microsoftsqlserver-plain"></i> SQL
+                                        Server</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CONTROLS -->
+            <div class="controls-grid">
+                <button class="ctrl-btn" onclick="showScreen('content-education', this)">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    EDU
+                </button>
+                <button class="ctrl-btn" onclick="showScreen('content-certs', this)">
+                    <i class="bi bi-award-fill"></i>
+                    CERTS
+                </button>
+                <button class="ctrl-btn" onclick="showScreen('content-skills', this)">
+                    <i class="bi bi-cpu-fill"></i>
+                    SKILLS
+                </button>
+                <button class="ctrl-btn active" onclick="showScreen('content-boot', this)">
+                    <i class="bi bi-terminal-fill"></i>
+                    SYS
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM BAR -->
+        <div class="bottom-bar">
+            <a href="https://www.youtube.com/channel/UCaiotbmdDmnnRhswFJW8p5g" target="_blank" class="link-btn">
+                <i class="bi bi-music-note-beamed"></i>
+                MUSIC
+                <span class="ascii-label">[BROADCAST]</span>
+            </a>
+            <a href="https://www.linkedin.com/in/marc-andr%C3%A9-landry-b-ing-37b26b88/" target="_blank"
+                class="link-btn">
+                <i class="bi bi-linkedin"></i>
+                LINKEDIN
+                <span class="ascii-label">[NETWORK]</span>
+            </a>
+            <a href="https://github.com/1legality" target="_blank" class="link-btn">
+                <i class="bi bi-github"></i>
+                GITHUB
+                <span class="ascii-label">[SOURCE]</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Screen switching logic
+        function showScreen(screenId, btnElement) {
+            const screens = document.querySelectorAll('.screen-content');
+            screens.forEach(s => s.classList.remove('active'));
+
+            document.getElementById(screenId).classList.add('active');
+
+            const buttons = document.querySelectorAll('.ctrl-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+
+        // Matrix digital rain effect
+        function createMatrixRain() {
+            const container = document.getElementById('matrix-rain');
+            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+            const columnCount = Math.floor(window.innerWidth / 25);
+
+            for (let i = 0; i < columnCount; i++) {
+                createRainColumn(container, chars, i);
+            }
+        }
+
+        function createRainColumn(container, chars, index) {
+            const column = document.createElement('div');
+            column.className = 'rain-column';
+            column.style.left = (index * 25) + Math.random() * 10 + 'px';
+
+            const duration = Math.random() * 10 + 8;
+            column.style.animationDuration = duration + 's';
+            // Negative delay = start mid-animation (already on screen)
+            column.style.animationDelay = (-Math.random() * duration) + 's';
+            column.style.opacity = Math.random() * 0.3 + 0.1;
+            column.style.fontSize = (Math.random() * 8 + 14) + 'px';
+
+            // Generate random characters
+            const length = Math.floor(Math.random() * 15) + 10;
+            let text = '';
+            for (let j = 0; j < length; j++) {
+                const char = chars.charAt(Math.floor(Math.random() * chars.length));
+                text += `<span style="animation-delay: 0s">${char}</span>`;
+            }
+            column.innerHTML = text;
+
+            container.appendChild(column);
+
+            // Regenerate column after animation
+            column.addEventListener('animationiteration', () => {
+                let newText = '';
+                for (let j = 0; j < length; j++) {
+                    const char = chars.charAt(Math.floor(Math.random() * chars.length));
+                    newText += `<span style="animation-delay: ${j * 0.05}s">${char}</span>`;
+                }
+                column.innerHTML = newText;
+            });
+        }
+
+        // Initialize rain on load
+        window.addEventListener('load', createMatrixRain);
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('matrix-rain');
+            container.innerHTML = '';
+            createMatrixRain();
+        });
+    </script>
+
+</body>
+
+</html>
