@@ -866,8 +866,15 @@
                 grid-row: auto;
             }
 
+            .monitor-chrome {
+                flex: none;
+            }
+
             .monitor-screen {
-                min-height: 350px;
+                height: 475px;
+                max-height: 475px;
+                min-height: 475px;
+                overflow-y: auto;
             }
 
             .controls-grid {
@@ -877,6 +884,11 @@
             .bottom-bar {
                 grid-column: 1;
                 grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .link-btn {
+                padding: 25px 20px;
             }
 
             .ascii-art {
