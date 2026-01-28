@@ -583,56 +583,81 @@
             text-shadow: 0 0 8px var(--neon-cyan);
         }
 
-        /* Skills */
+        /* Skills - ASCII Box Style */
         .skill-category {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            font-family: 'Share Tech Mono', monospace;
         }
 
-        .skill-category-title {
+        .skill-box {
+            border: 1px solid var(--neon-red);
+            background: rgba(255, 0, 51, 0.05);
+            position: relative;
+            padding: 15px 20px;
+        }
+
+        .skill-box-header {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #0a0a12;
+            padding: 0 10px;
             color: var(--neon-orange);
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
         }
 
-        .skill-category-title::before {
-            content: '//';
-            color: var(--text-dim);
+        .skill-box-header::before {
+            content: '┌──';
+            color: var(--neon-red);
+            margin-right: 5px;
+        }
+
+        .skill-box-header::after {
+            content: '──┐';
+            color: var(--neon-red);
+            margin-left: 5px;
         }
 
         .skill-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
+            margin-top: 5px;
         }
 
         .skill-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255, 0, 51, 0.1);
-            border: 1px solid var(--neon-red);
             color: var(--text-primary);
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            padding: 4px 0;
             transition: all 0.2s;
         }
 
         .skill-tag:hover {
-            background: var(--neon-red);
-            color: black;
-            box-shadow: 0 0 15px var(--neon-red-glow);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan-glow);
         }
 
         .skill-tag i {
-            font-size: 1rem;
-            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            color: var(--neon-red);
         }
 
         .skill-tag:hover i {
-            color: black;
+            color: var(--neon-cyan);
+        }
+
+        .skill-box-footer {
+            position: absolute;
+            bottom: -10px;
+            right: 15px;
+            background: #0a0a12;
+            padding: 0 10px;
+            color: var(--neon-red);
+            font-size: 0.75rem;
         }
 
         /* ========== CONTROLS ========== */
@@ -941,6 +966,7 @@
                         <p>> ICE_BREAKERS... <span class="boot-warning">STANDBY</span></p>
                         <br>
                         <p style="color: var(--neon-red);">> WELCOME, OPERATOR</p>
+                        <p>> PROFILE: Senior Developer // 10+ yrs // Azure & .NET Specialist</p>
                         <p>> LANDRY_SYSTEMS v1.0 // 2026</p>
                         <p>> SELECT MODULE TO ACCESS DATA...</p>
                         <br>
@@ -1095,7 +1121,7 @@
                 </button>
                 <button class="ctrl-btn active" onclick="showScreen('content-boot', this)">
                     <i class="bi bi-terminal-fill"></i>
-                    MAIN
+                    SYS
                 </button>
             </div>
         </div>
