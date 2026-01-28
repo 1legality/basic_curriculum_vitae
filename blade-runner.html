@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marc-André Landry // サイバーパンク</title>
+    <meta name="description"
+        content="Marc-André Landry - Software Engineer Portfolio | Azure Certified | Full-Stack Developer">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+
+    <!-- Fonts: Cyberpunk typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            /* Cyberpunk Palette - RED dominant */
+            --neon-red: #ff0033;
+            --neon-red-glow: rgba(255, 0, 51, 0.6);
+            --neon-cyan: #00f0ff;
+            --neon-cyan-glow: rgba(0, 240, 255, 0.4);
+            --neon-orange: #ff6b35;
+            --neon-magenta: #ff00aa;
+            --neon-yellow: #ffcc00;
+
+            /* Noir backgrounds */
+            --bg-dark: #0a0a0f;
+            --bg-panel: rgba(15, 15, 25, 0.85);
+            --bg-panel-solid: #0f0f19;
+            --border-glow: rgba(255, 0, 51, 0.3);
+
+            /* Text */
+            --text-primary: #e0e0e0;
+            --text-dim: #888;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(180deg, #0a0a12 0%, #1a0a15 50%, #0a0a12 100%);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ========== RAIN ANIMATION ========== */
+        .rain-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 240, 255, 0.3), rgba(0, 240, 255, 0.6));
+            animation: rain-fall linear infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes rain-fall {
+            0% {
+                transform: translateY(-100vh);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        /* ========== SCANLINE OVERLAY ========== */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.1) 0px,
+                    rgba(0, 0, 0, 0.1) 1px,
+                    transparent 1px,
+                    transparent 3px);
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .cyber-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            grid-template-rows: auto auto;
+            gap: 20px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== GLOWING PANEL BASE ========== */
+        .holo-panel {
+            background: var(--bg-panel);
+            border: 1px solid var(--neon-red);
+            box-shadow:
+                0 0 10px var(--neon-red-glow),
+                inset 0 0 30px rgba(255, 0, 51, 0.05);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .holo-panel::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-red), transparent);
+            box-shadow: 0 0 15px var(--neon-red);
+        }
+
+        /* Corner decorations */
+        .holo-panel::after {
+            content: '◢';
+            position: absolute;
+            bottom: 5px;
+            right: 8px;
+            color: var(--neon-red);
+            opacity: 0.5;
+            font-size: 10px;
+        }
+
+        /* ========== LEFT PANEL: IDENTITY ========== */
+        .identity-panel {
+            grid-row: 1 / span 2;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Japanese decorative text */
+        .kanji-decoration {
+            position: absolute;
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--neon-red);
+            opacity: 0.15;
+            font-size: 4rem;
+            writing-mode: vertical-rl;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            letter-spacing: 15px;
+            text-shadow: 0 0 20px var(--neon-red);
+        }
+
+        .profile-header {
+            margin-bottom: 30px;
+        }
+
+        .glitch-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            animation: glitch-skew 4s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            color: var(--neon-cyan);
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+        }
+
+        .glitch-text::after {
+            color: var(--neon-red);
+            animation: glitch-2 3s infinite linear alternate-reverse;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch-1 {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(-3px);
+            }
+
+            40% {
+                transform: translateX(3px);
+            }
+
+            60% {
+                transform: translateX(-1px);
+            }
+
+            80% {
+                transform: translateX(2px);
+            }
+        }
+
+        @keyframes glitch-2 {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(2px);
+            }
+
+            50% {
+                transform: translateX(-2px);
+            }
+
+            75% {
+                transform: translateX(1px);
+            }
+        }
+
+        @keyframes glitch-skew {
+
+            0%,
+            100% {
+                transform: skewX(0deg);
+            }
+
+            50% {
+                transform: skewX(0.5deg);
+            }
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-red);
+            font-size: 1rem;
+            letter-spacing: 5px;
+            margin-top: 10px;
+            text-shadow: 0 0 10px var(--neon-red-glow);
+        }
+
+        .status-block {
+            margin-top: 40px;
+            padding: 20px;
+            border-left: 3px solid var(--neon-red);
+            background: rgba(255, 0, 51, 0.05);
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .status-label {
+            color: var(--neon-cyan);
+            min-width: 120px;
+        }
+
+        .status-value {
+            color: var(--text-primary);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--neon-red);
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                opacity: 1;
+                box-shadow: 0 0 10px var(--neon-red);
+            }
+
+            50% {
+                opacity: 0.5;
+                box-shadow: 0 0 20px var(--neon-red);
+            }
+        }
+
+        /* Hex pattern decoration */
+        .hex-pattern {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 20px);
+            gap: 5px;
+            opacity: 0.3;
+        }
+
+        .hex-dot {
+            width: 15px;
+            height: 15px;
+            border: 1px solid var(--neon-red);
+            transform: rotate(45deg);
+        }
+
+        .hex-dot.active {
+            background: var(--neon-red);
+            box-shadow: 0 0 8px var(--neon-red);
+        }
+
+        /* ========== RIGHT TOP: MONITOR ========== */
+        .monitor-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .monitor-chrome {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .monitor-header {
+            background: linear-gradient(90deg, var(--bg-panel-solid), transparent);
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--neon-red);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .monitor-title {
+            color: var(--neon-red);
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .monitor-title i {
+            font-size: 1rem;
+        }
+
+        .monitor-stats {
+            color: var(--neon-cyan);
+            font-size: 0.75rem;
+        }
+
+        .monitor-stats span {
+            margin-left: 15px;
+        }
+
+        .monitor-screen {
+            flex: 1;
+            background: linear-gradient(180deg, #050508 0%, #0a0a12 100%);
+            border: 1px solid rgba(255, 0, 51, 0.3);
+            padding: 25px;
+            min-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* CRT flicker */
+        .monitor-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%,
+                    rgba(0, 0, 0, 0.15) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* ========== SCREEN CONTENT ========== */
+        .screen-content {
+            display: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .screen-content.active {
+            display: block;
+            animation: fade-in 0.3s ease;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-header {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-red);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.3);
+            text-shadow: 0 0 10px var(--neon-red-glow);
+        }
+
+        .content-header::before {
+            content: '>';
+            margin-right: 10px;
+            animation: blink-cursor 1s infinite;
+        }
+
+        @keyframes blink-cursor {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Boot screen */
+        #content-boot p {
+            margin: 5px 0;
+            color: var(--neon-cyan);
+        }
+
+        #content-boot .boot-ok {
+            color: #00ff66;
+        }
+
+        #content-boot .boot-warning {
+            color: var(--neon-orange);
+        }
+
+        .cursor-blink {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--neon-red);
+            animation: blink-cursor 0.8s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* Entry items */
+        .entry-item {
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 2px solid var(--neon-red);
+            position: relative;
+        }
+
+        .entry-item::before {
+            content: '◆';
+            position: absolute;
+            left: -7px;
+            top: 0;
+            color: var(--neon-red);
+            font-size: 10px;
+        }
+
+        .entry-year {
+            display: inline-block;
+            background: rgba(255, 0, 51, 0.2);
+            color: var(--neon-red);
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            border: 1px solid var(--neon-red);
+        }
+
+        .entry-title {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .entry-link {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .entry-link:hover {
+            color: white;
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        /* Certification list */
+        .cert-list {
+            list-style: none;
+        }
+
+        .cert-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 0, 51, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cert-list li:last-child {
+            border-bottom: none;
+        }
+
+        .cert-year {
+            background: var(--neon-red);
+            color: black;
+            padding: 3px 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .cert-link {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .cert-link:hover {
+            color: white;
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        /* Skills */
+        .skill-category {
+            margin-bottom: 25px;
+        }
+
+        .skill-category-title {
+            color: var(--neon-orange);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-category-title::before {
+            content: '//';
+            color: var(--text-dim);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 0, 51, 0.1);
+            border: 1px solid var(--neon-red);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            background: var(--neon-red);
+            color: black;
+            box-shadow: 0 0 15px var(--neon-red-glow);
+        }
+
+        .skill-tag i {
+            font-size: 1rem;
+            color: var(--neon-cyan);
+        }
+
+        .skill-tag:hover i {
+            color: black;
+        }
+
+        /* ========== CONTROLS ========== */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .ctrl-btn {
+            background: linear-gradient(180deg, rgba(255, 0, 51, 0.1) 0%, rgba(255, 0, 51, 0.05) 100%);
+            border: 1px solid var(--neon-red);
+            color: var(--text-primary);
+            padding: 15px 10px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ctrl-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 51, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .ctrl-btn:hover::before {
+            left: 100%;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(255, 0, 51, 0.2);
+            box-shadow: 0 0 20px var(--neon-red-glow);
+        }
+
+        .ctrl-btn.active {
+            background: var(--neon-red);
+            color: black;
+            box-shadow:
+                0 0 20px var(--neon-red-glow),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .ctrl-btn.active i {
+            color: black;
+        }
+
+        .ctrl-btn i {
+            font-size: 1.4rem;
+            color: var(--neon-red);
+        }
+
+        /* ========== BOTTOM BAR ========== */
+        .bottom-bar {
+            grid-column: 2;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .link-btn {
+            background: transparent;
+            border: 2px solid var(--neon-red);
+            color: var(--neon-red);
+            padding: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-red);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s;
+            z-index: -1;
+        }
+
+        .link-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .link-btn:hover {
+            color: black;
+            box-shadow: 0 0 30px var(--neon-red-glow);
+        }
+
+        .link-btn i {
+            font-size: 1.5rem;
+        }
+
+        .link-btn .kanji-label {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        /* ========== DECORATIVE ELEMENTS ========== */
+        .corner-decoration {
+            position: fixed;
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--neon-red);
+            opacity: 0.1;
+            font-size: 8rem;
+            z-index: 0;
+            text-shadow: 0 0 50px var(--neon-red);
+        }
+
+        .corner-decoration.top-right {
+            top: -20px;
+            right: 20px;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: -20px;
+            left: 20px;
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-red);
+            border: 1px solid var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff3366;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 900px) {
+            .cyber-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                padding: 10px;
+            }
+
+            .identity-panel {
+                grid-row: auto;
+                min-height: auto;
+                padding: 20px;
+            }
+
+            .kanji-decoration {
+                font-size: 2rem;
+                right: 10px;
+            }
+
+            .glitch-text {
+                font-size: 1.5rem;
+            }
+
+            .monitor-section {
+                grid-row: auto;
+            }
+
+            .monitor-screen {
+                min-height: 350px;
+            }
+
+            .controls-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .bottom-bar {
+                grid-column: 1;
+                grid-template-columns: 1fr;
+            }
+
+            .corner-decoration {
+                font-size: 4rem;
+            }
+
+            .hex-pattern {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Rain Effect -->
+    <div class="rain-container" id="rain-container"></div>
+
+    <!-- Scanlines Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Decorative Kanji -->
+    <div class="corner-decoration top-right">電</div>
+    <div class="corner-decoration bottom-left">脳</div>
+
+    <div class="cyber-container">
+
+        <!-- LEFT PANEL: Identity -->
+        <div class="identity-panel holo-panel">
+
+            <!-- Vertical Kanji decoration -->
+            <div class="kanji-decoration">未来技術者</div>
+
+            <div class="profile-header">
+                <h1 class="glitch-text" data-text="Marc-André Landry">Marc-André Landry</h1>
+                <div class="subtitle">B.ING // ソフトウェア工学</div>
+            </div>
+
+            <div class="status-block">
+                <div class="status-line">
+                    <span class="status-indicator"></span>
+                    <span class="status-label">STATUS:</span>
+                    <span class="status-value">ACTIVE // 稼働中</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-indicator"></span>
+                    <span class="status-label">FUNCTION:</span>
+                    <span class="status-value">SOFTWARE ENGINEER</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-indicator"></span>
+                    <span class="status-label">LOCATION:</span>
+                    <span class="status-value">QUÉBEC // ケベック</span>
+                </div>
+                <div class="status-line">
+                    <span class="status-indicator"></span>
+                    <span class="status-label">CLEARANCE:</span>
+                    <span class="status-value">LEVEL 7 // AZURE CERTIFIED</span>
+                </div>
+            </div>
+
+            <!-- Hex pattern decoration -->
+            <div class="hex-pattern">
+                <div class="hex-dot active"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot active"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot active"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot active"></div>
+                <div class="hex-dot active"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot"></div>
+                <div class="hex-dot active"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT TOP: Monitor Section -->
+        <div class="monitor-section">
+            <div class="monitor-chrome holo-panel">
+                <div class="monitor-header">
+                    <div class="monitor-title">
+                        <i class="bi bi-terminal-fill"></i>
+                        NEXUS_TERMINAL v2.0.77
+                    </div>
+                    <div class="monitor-stats">
+                        <span>MEM: 128GB</span>
+                        <span>NET: SECURE</span>
+                        <span>ID: 0x7F3A</span>
+                    </div>
+                </div>
+                <div class="monitor-screen" id="main-monitor">
+
+                    <!-- BOOT SCREEN -->
+                    <div id="content-boot" class="screen-content active">
+                        <p>> NEXUS_CORE INITIALIZING...</p>
+                        <p>> NEURAL_INTERFACE... <span class="boot-ok">LINKED</span></p>
+                        <p>> MEMORY_BANKS... <span class="boot-ok">ONLINE</span></p>
+                        <p>> FIREWALL_STATUS... <span class="boot-ok">ACTIVE</span></p>
+                        <p>> ICE_BREAKERS... <span class="boot-warning">STANDBY</span></p>
+                        <br>
+                        <p style="color: var(--neon-red);">> WELCOME, OPERATOR</p>
+                        <p>> LANDRY_SYSTEMS v1.0 // 2026</p>
+                        <p>> SELECT MODULE TO ACCESS DATA...</p>
+                        <br>
+                        <p style="color: #444; font-size: 0.85em; opacity: 0.6;">> [INTERCEPTED_SIGNAL] He say you brade
+                            runner...</p>
+                        <br>
+                        <p>> AWAITING INPUT<span class="cursor-blink"></span></p>
+                    </div>
+
+                    <!-- EDUCATION -->
+                    <div id="content-education" class="screen-content">
+                        <div class="content-header">EDUCATION // 教育データ</div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2016 - 2020</div>
+                            <div class="entry-title">Baccalauréat en Génie Logiciel</div>
+                            <a href="https://www.etsmtl.ca/etudes/premier-cycle/baccalaureat-genie-logiciel"
+                                target="_blank" class="entry-link">
+                                École de Technologie Supérieure ↗
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2012 - 2015</div>
+                            <div class="entry-title">Techniques de l'informatique</div>
+                            <a href="https://www.cegepsth.qc.ca/programme/techniques-de-linformatique-developpement-de-logiciels/"
+                                target="_blank" class="entry-link">
+                                Cégep de Saint-Hyacinthe ↗
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2010</div>
+                            <div class="entry-title">Administration Représentation (ASP)</div>
+                            <a href="https://epsh.qc.ca/formation/representation/" target="_blank" class="entry-link">
+                                École Professionnelle de Saint-Hyacinthe ↗
+                            </a>
+                        </div>
+
+                        <div class="entry-item">
+                            <div class="entry-year">2009 - 2010</div>
+                            <div class="entry-title">Administration Vente-conseil</div>
+                            <a href="https://epsh.qc.ca/formation/vente-conseil/" target="_blank" class="entry-link">
+                                École Professionnelle de Saint-Hyacinthe ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CERTIFICATIONS -->
+                    <div id="content-certs" class="screen-content">
+                        <div class="content-header">CERTIFICATIONS // 認定資格</div>
+
+                        <ul class="cert-list">
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/dp-420/"
+                                    target="_blank" class="cert-link">
+                                    Azure Cosmos DB Specialty ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/ai-102/" target="_blank"
+                                    class="cert-link">
+                                    Azure AI Engineer Associate ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-400/" target="_blank"
+                                    class="cert-link">
+                                    DevOps Engineer Expert ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2023</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-305/" target="_blank"
+                                    class="cert-link">
+                                    Azure Solutions Architect Expert ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2022</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-104/" target="_blank"
+                                    class="cert-link">
+                                    Azure Administrator Associate ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/az-204/" target="_blank"
+                                    class="cert-link">
+                                    Azure Developer Associate ↗
+                                </a>
+                            </li>
+                            <li>
+                                <span class="cert-year">2021</span>
+                                <a href="https://learn.microsoft.com/en-us/certifications/exams/pl-900/" target="_blank"
+                                    class="cert-link">
+                                    Power Platform Fundamentals ↗
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- SKILLS -->
+                    <div id="content-skills" class="screen-content">
+                        <div class="content-header">SKILLS MATRIX // 技能</div>
+
+                        <div class="skill-category">
+                            <div class="skill-category-title">LANGUAGES & FRAMEWORKS</div>
+                            <div class="skill-tags">
+                                <span class="skill-tag"><i class="devicon-csharp-plain"></i> C#</span>
+                                <span class="skill-tag"><i class="devicon-dot-net-plain"></i> .NET</span>
+                                <span class="skill-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                                <span class="skill-tag"><i class="devicon-html5-plain"></i> HTML/CSS</span>
+                                <span class="skill-tag"><i class="devicon-laravel-plain"></i> Laravel</span>
+                                <span class="skill-tag"><i class="devicon-cplusplus-plain"></i> JUCE</span>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <div class="skill-category-title">INFRASTRUCTURE & TOOLS</div>
+                            <div class="skill-tags">
+                                <span class="skill-tag"><i class="devicon-azure-plain"></i> Azure</span>
+                                <span class="skill-tag"><i class="devicon-docker-plain"></i> Docker</span>
+                                <span class="skill-tag"><i class="devicon-git-plain"></i> Git</span>
+                                <span class="skill-tag"><i class="devicon-linux-plain"></i> Linux</span>
+                                <span class="skill-tag"><i class="devicon-microsoftsqlserver-plain"></i> SQL
+                                    Server</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CONTROLS -->
+            <div class="controls-grid">
+                <button class="ctrl-btn" onclick="showScreen('content-education', this)">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    EDU
+                </button>
+                <button class="ctrl-btn" onclick="showScreen('content-certs', this)">
+                    <i class="bi bi-award-fill"></i>
+                    CERTS
+                </button>
+                <button class="ctrl-btn" onclick="showScreen('content-skills', this)">
+                    <i class="bi bi-cpu-fill"></i>
+                    SKILLS
+                </button>
+                <button class="ctrl-btn active" onclick="showScreen('content-boot', this)">
+                    <i class="bi bi-terminal-fill"></i>
+                    MAIN
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM BAR -->
+        <div class="bottom-bar">
+            <a href="https://www.youtube.com/channel/UCaiotbmdDmnnRhswFJW8p5g" target="_blank" class="link-btn">
+                <i class="bi bi-music-note-beamed"></i>
+                MUSIC
+                <span class="kanji-label">音楽</span>
+            </a>
+            <a href="https://www.linkedin.com/in/marc-andr%C3%A9-landry-b-ing-37b26b88/" target="_blank"
+                class="link-btn">
+                <i class="bi bi-linkedin"></i>
+                LINKEDIN
+                <span class="kanji-label">接続</span>
+            </a>
+            <a href="https://github.com/1legality" target="_blank" class="link-btn">
+                <i class="bi bi-github"></i>
+                GITHUB
+                <span class="kanji-label">源コード</span>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Screen switching logic
+        function showScreen(screenId, btnElement) {
+            const screens = document.querySelectorAll('.screen-content');
+            screens.forEach(s => s.classList.remove('active'));
+
+            document.getElementById(screenId).classList.add('active');
+
+            const buttons = document.querySelectorAll('.ctrl-btn');
+            buttons.forEach(b => b.classList.remove('active'));
+            if (btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+
+        // Rain effect generator
+        function createRain() {
+            const container = document.getElementById('rain-container');
+            const rainCount = 80;
+
+            for (let i = 0; i < rainCount; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.height = Math.random() * 20 + 10 + 'px';
+                drop.style.animationDuration = Math.random() * 1 + 0.5 + 's';
+                drop.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(drop);
+            }
+        }
+
+        // Initialize rain on load
+        window.addEventListener('load', createRain);
+    </script>
+
+</body>
+
+</html>
