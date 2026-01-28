@@ -802,11 +802,13 @@
             z-index: -1;
         }
 
-        .link-btn:hover::before {
+        .link-btn:hover::before,
+        .link-btn:active::before {
             transform: scaleY(1);
         }
 
-        .link-btn:hover {
+        .link-btn:hover,
+        .link-btn:active {
             color: var(--bg-void);
             box-shadow: 0 0 30px var(--matrix-green-glow);
         }
@@ -871,9 +873,9 @@
             }
 
             .monitor-screen {
-                height: 475px;
-                max-height: 475px;
-                min-height: 475px;
+                height: 480px;
+                max-height: 480px;
+                min-height: 480px;
                 overflow-y: auto;
             }
 
