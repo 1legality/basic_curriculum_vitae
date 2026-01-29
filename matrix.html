@@ -1244,6 +1244,8 @@
 
         // Mobile touch animation delay for link buttons
         document.querySelectorAll('.link-btn').forEach(btn => {
+            let isNavigating = false;
+
             btn.addEventListener('touchstart', function (e) {
                 // Add active class to trigger animation
                 this.classList.add('touch-active');
@@ -1257,10 +1259,12 @@
                     const target = this.getAttribute('target');
                     const btn = this;
 
+                    isNavigating = true;
                     this.classList.add('touch-active');
 
                     setTimeout(() => {
                         btn.classList.remove('touch-active');
+                        isNavigating = false;
                         if (target === '_blank') {
                             window.open(href, '_blank');
                         } else {
@@ -1272,10 +1276,30 @@
 
             btn.addEventListener('touchend', function (e) {
                 // Remove active state when touch ends (for cancelled touches)
+                // Only remove if not in the middle of a navigation delay
+                const button = this;
                 setTimeout(() => {
-                    this.classList.remove('touch-active');
+                    if (!isNavigating) {
+                        button.classList.remove('touch-active');
+                    }
                 }, 350);
             });
+
+            btn.addEventListener('touchcancel', function (e) {
+                // Always remove active state on touch cancel
+                this.classList.remove('touch-active');
+                isNavigating = false;
+            });
+        });
+
+        // Remove touch-active from all buttons when page becomes visible again
+        // (handles returning from a new tab)
+        document.addEventListener('visibilitychange', function () {
+            if (document.visibilityState === 'visible') {
+                document.querySelectorAll('.link-btn.touch-active').forEach(btn => {
+                    btn.classList.remove('touch-active');
+                });
+            }
         });
     </script>
 
