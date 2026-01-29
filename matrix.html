@@ -802,16 +802,12 @@
             z-index: -1;
         }
 
-        .link-btn:hover::before,
-        .link-btn:active::before,
-        .link-btn.touch-active::before {
+        .link-btn:hover::before {
             transform: scaleY(1);
             transform-origin: top;
         }
 
-        .link-btn:hover,
-        .link-btn:active,
-        .link-btn.touch-active {
+        .link-btn:hover {
             color: var(--bg-void);
             box-shadow: 0 0 30px var(--matrix-green-glow);
         }
@@ -1240,66 +1236,6 @@
             const container = document.getElementById('matrix-rain');
             container.innerHTML = '';
             createMatrixRain();
-        });
-
-        // Mobile touch animation delay for link buttons
-        document.querySelectorAll('.link-btn').forEach(btn => {
-            let isNavigating = false;
-
-            btn.addEventListener('touchstart', function (e) {
-                // Add active class to trigger animation
-                this.classList.add('touch-active');
-            });
-
-            btn.addEventListener('click', function (e) {
-                // On mobile, delay navigation to show animation
-                if ('ontouchstart' in window) {
-                    e.preventDefault();
-                    const href = this.getAttribute('href');
-                    const target = this.getAttribute('target');
-                    const btn = this;
-
-                    isNavigating = true;
-                    this.classList.add('touch-active');
-
-                    setTimeout(() => {
-                        btn.classList.remove('touch-active');
-                        isNavigating = false;
-                        if (target === '_blank') {
-                            window.open(href, '_blank');
-                        } else {
-                            window.location.href = href;
-                        }
-                    }, 300); // Match CSS transition duration
-                }
-            });
-
-            btn.addEventListener('touchend', function (e) {
-                // Remove active state when touch ends (for cancelled touches)
-                // Only remove if not in the middle of a navigation delay
-                const button = this;
-                setTimeout(() => {
-                    if (!isNavigating) {
-                        button.classList.remove('touch-active');
-                    }
-                }, 350);
-            });
-
-            btn.addEventListener('touchcancel', function (e) {
-                // Always remove active state on touch cancel
-                this.classList.remove('touch-active');
-                isNavigating = false;
-            });
-        });
-
-        // Remove touch-active from all buttons when page becomes visible again
-        // (handles returning from a new tab)
-        document.addEventListener('visibilitychange', function () {
-            if (document.visibilityState === 'visible') {
-                document.querySelectorAll('.link-btn.touch-active').forEach(btn => {
-                    btn.classList.remove('touch-active');
-                });
-            }
         });
     </script>
 
