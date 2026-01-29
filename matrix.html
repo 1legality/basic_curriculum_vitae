@@ -803,13 +803,15 @@
         }
 
         .link-btn:hover::before,
-        .link-btn:active::before {
+        .link-btn:active::before,
+        .link-btn.touch-active::before {
             transform: scaleX(1);
             transform-origin: left;
         }
 
         .link-btn:hover,
-        .link-btn:active {
+        .link-btn:active,
+        .link-btn.touch-active {
             color: var(--bg-void);
             box-shadow: 0 0 30px var(--matrix-green-glow);
         }
@@ -1238,6 +1240,33 @@
             const container = document.getElementById('matrix-rain');
             container.innerHTML = '';
             createMatrixRain();
+        });
+
+        // Mobile touch animation delay for link buttons
+        document.querySelectorAll('.link-btn').forEach(btn => {
+            btn.addEventListener('touchstart', function (e) {
+                // Add active class to trigger animation
+                this.classList.add('touch-active');
+            });
+
+            btn.addEventListener('click', function (e) {
+                // On mobile, delay navigation to show animation
+                if ('ontouchstart' in window) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    const target = this.getAttribute('target');
+
+                    this.classList.add('touch-active');
+
+                    setTimeout(() => {
+                        if (target === '_blank') {
+                            window.open(href, '_blank');
+                        } else {
+                            window.location.href = href;
+                        }
+                    }, 300); // Match CSS transition duration
+                }
+            });
         });
     </script>
 
