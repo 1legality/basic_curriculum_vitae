@@ -796,8 +796,8 @@
             width: 100%;
             height: 100%;
             background: var(--matrix-green);
-            transform: scaleX(0);
-            transform-origin: right;
+            transform: scaleY(0);
+            transform-origin: bottom;
             transition: transform 0.3s;
             z-index: -1;
         }
@@ -805,8 +805,8 @@
         .link-btn:hover::before,
         .link-btn:active::before,
         .link-btn.touch-active::before {
-            transform: scaleX(1);
-            transform-origin: left;
+            transform: scaleY(1);
+            transform-origin: top;
         }
 
         .link-btn:hover,
@@ -1255,10 +1255,12 @@
                     e.preventDefault();
                     const href = this.getAttribute('href');
                     const target = this.getAttribute('target');
+                    const btn = this;
 
                     this.classList.add('touch-active');
 
                     setTimeout(() => {
+                        btn.classList.remove('touch-active');
                         if (target === '_blank') {
                             window.open(href, '_blank');
                         } else {
@@ -1266,6 +1268,13 @@
                         }
                     }, 300); // Match CSS transition duration
                 }
+            });
+
+            btn.addEventListener('touchend', function (e) {
+                // Remove active state when touch ends (for cancelled touches)
+                setTimeout(() => {
+                    this.classList.remove('touch-active');
+                }, 350);
             });
         });
     </script>
