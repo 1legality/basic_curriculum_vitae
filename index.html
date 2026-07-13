@@ -227,6 +227,20 @@
       transform: translateY(-1px);
     }
 
+    .skill-group + .skill-group {
+      margin-top: 1.5rem;
+    }
+
+    .skill-group-title {
+      margin: 0 0 0.5rem 0.25rem;
+      color: var(--color-text-secondary);
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
     .btn-dark {
       padding: 0.5rem 1.25rem;
       color: var(--color-text-primary);
@@ -437,39 +451,44 @@
             </div>
 
             <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-              <div class="d-flex flex-wrap">
-                <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-csharp-plain"></i> C#</a>
-                <a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-dot-net-plain"></i> .NET</a>
-                <a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-microsoftsqlserver-plain"></i> Microsoft SQL
-                  Server</a>
-                <a href="https://laravel.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-laravel-plain"></i> Laravel</a>
-                <a href="https://juce.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-cplusplus-plain"></i> Juce</a>
+              <div class="skill-group">
+                <h2 class="skill-group-title">Core engineering</h2>
+                <div class="d-flex flex-wrap">
+                  <a href="https://isocpp.org/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-cplusplus-plain"></i> C++</a>
+                  <a href="https://juce.com/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-cplusplus-plain"></i> JUCE</a>
+                  <a href="https://dotnet.microsoft.com/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-csharp-plain"></i> C# / .NET</a>
+                  <a href="https://www.typescriptlang.org/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-typescript-plain"></i> TypeScript</a>
+                  <a href="https://cmake.org/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-cmake-plain"></i> CMake</a>
+                </div>
               </div>
-              <div class="d-flex flex-wrap">
-                <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-html5-plain"></i> HTML</a>
-                <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-css3-plain"></i> CSS</a>
-                <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"
-                  rel="noopener noreferrer" class="badge rounded-pill bg-dark m-1"><i
-                    class="devicon-javascript-plain"></i> JavaScript</a>
-                <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-bootstrap-plain"></i> Bootstrap</a>
+
+              <div class="skill-group">
+                <h2 class="skill-group-title">Web, cloud and delivery</h2>
+                <div class="d-flex flex-wrap">
+                  <a href="https://astro.build/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="bi bi-stars"></i> Astro</a>
+                  <a href="https://www.cloudflare.com/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="bi bi-cloud"></i> Cloudflare</a>
+                  <a href="https://azure.microsoft.com/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="devicon-azure-plain"></i> Azure</a>
+                  <a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="bi bi-github"></i> GitHub Actions</a>
+                </div>
               </div>
-              <div class="d-flex flex-wrap">
-                <a href="https://git-scm.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-git-plain"></i> git</a>
-                <a href="https://azure.microsoft.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-azure-plain"></i> Azure</a>
-                <a href="https://www.linux.org/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-linux-plain"></i> Linux</a>
-                <a href="https://www.docker.com/" target="_blank" rel="noopener noreferrer"
-                  class="badge rounded-pill bg-dark m-1"><i class="devicon-docker-plain"></i> Docker</a>
+
+              <div class="skill-group">
+                <h2 class="skill-group-title">AI-assisted development</h2>
+                <div class="d-flex flex-wrap">
+                  <a href="https://developers.openai.com/codex/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="bi bi-robot"></i> Codex</a>
+                  <a href="https://www.cursor.com/" target="_blank" rel="noopener noreferrer"
+                    class="badge rounded-pill bg-dark m-1"><i class="bi bi-cursor-fill"></i> Cursor</a>
+                </div>
               </div>
             </div>
 
