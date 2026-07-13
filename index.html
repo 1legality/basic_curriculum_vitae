@@ -11,14 +11,95 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <!-- Devicons CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+  <!-- ISOREK typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Outfit:wght@500;600;700&amp;display=swap">
 
   <style>
+    :root {
+      color-scheme: dark;
+      --color-bg-deep: #191b29;
+      --color-bg-card: color-mix(in srgb, #2f334d 64%, transparent);
+      --color-bg-header: color-mix(in srgb, #191b29 92%, transparent);
+      --color-surface-subtle: color-mix(in srgb, #444a73 48%, transparent);
+      --color-surface-subtle-hover: color-mix(in srgb, #545c7e 56%, transparent);
+      --color-border-subtle: color-mix(in srgb, #737aa2 38%, transparent);
+      --color-divider-subtle: color-mix(in srgb, #737aa2 26%, transparent);
+      --color-text-primary: #c8d3f5;
+      --color-text-secondary: #828bb8;
+      --color-accent-cyan: #86e1fc;
+      --color-accent-blue: #82aaff;
+      --color-accent-purple: #c099ff;
+      --color-accent-contrast: #191b29;
+      --gradient-brand: linear-gradient(135deg, #86e1fc 0%, #82aaff 46%, #c099ff 74%, #ff966c 100%);
+      --gradient-wordmark: linear-gradient(135deg, #86e1fc 0%, #82aaff 54%, #c099ff 100%);
+      --glass-blur: blur(16px);
+      --radius-md: 12px;
+      --radius-full: 9999px;
+      --transition-fast: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-normal: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      background-color: var(--color-bg-deep);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+      background:
+        radial-gradient(circle at 8% 22%, color-mix(in srgb, var(--color-accent-cyan) 13%, transparent), transparent 28rem),
+        radial-gradient(circle at 92% 72%, color-mix(in srgb, var(--color-accent-purple) 12%, transparent), transparent 30rem),
+        var(--color-bg-deep);
+      background-attachment: fixed;
+    }
+
+    a {
+      color: var(--color-accent-blue);
+      transition: color var(--transition-fast);
+    }
+
+    a:hover {
+      color: var(--color-accent-cyan);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-accent-cyan);
+      outline-offset: 3px;
+    }
+
     .year {
       text-align: right;
+      color: var(--color-text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
     }
 
     .entity-title {
-      font-weight: bold;
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-weight: 600;
+    }
+
+    .entity-title a {
+      color: var(--color-text-primary);
+      text-decoration: none;
+    }
+
+    .entity-title a:hover {
+      color: var(--color-accent-cyan);
     }
 
     .fixed-top {
@@ -26,13 +107,90 @@
       top: 0;
       left: 0;
       right: 0;
-      padding: 5px;
-      background-color: #f8f9fa;
+      z-index: 100;
+      padding: 0.85rem 1.5rem 0.7rem;
+      background: var(--color-bg-header);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .fixed-top h1 {
+      margin: 0;
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: clamp(1.7rem, 4vw, 2.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      background: var(--gradient-wordmark);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 12px color-mix(in srgb, var(--color-accent-cyan) 22%, transparent));
+    }
+
+    .fixed-top p {
+      margin: 0.25rem 0 0;
+      color: var(--color-text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
     }
 
     .content-area {
-      margin-top: 120px;
-      margin-bottom: 80px;
+      margin-top: 130px;
+      margin-bottom: 100px;
+    }
+
+    #myTabs,
+    .col-md-9 > .tab-content {
+      padding: 1rem;
+      background: var(--color-bg-card);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 32px color-mix(in srgb, #000 32%, transparent);
+    }
+
+    .nav-pills {
+      gap: 0.35rem;
+    }
+
+    .nav-pills .nav-link {
+      color: var(--color-text-secondary);
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      border-radius: var(--radius-md);
+      transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .nav-pills .nav-link:hover {
+      color: var(--color-text-primary);
+      background: var(--color-surface-subtle);
+      border-color: var(--color-border-subtle);
+    }
+
+    .nav-pills .nav-link.active {
+      color: var(--color-accent-contrast);
+      background: var(--gradient-brand);
+      border-color: transparent;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--color-accent-blue) 20%, transparent);
+    }
+
+    .tab-pane > p {
+      margin-top: 0.2rem;
+      margin-bottom: 1rem;
+      color: var(--color-text-secondary);
+    }
+
+    hr {
+      margin: 1.25rem 0;
+      color: var(--color-divider-subtle);
+      border-top-width: 1px;
+      opacity: 1;
     }
 
     .fixed-bottom {
@@ -40,13 +198,79 @@
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 15px;
-      background-color: #f8f9fa;
+      z-index: 100;
+      padding: 0.85rem 1.5rem;
+      background: var(--color-bg-header);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-top: 1px solid var(--color-border-subtle);
     }
 
-    /* Remove underline from anchor tags */
     .badge {
       text-decoration: none;
+    }
+
+    .badge.bg-dark {
+      padding: 0.65rem 0.85rem;
+      color: var(--color-text-primary);
+      background: var(--color-surface-subtle) !important;
+      border: 1px solid var(--color-border-subtle);
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: color var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .badge.bg-dark:hover {
+      color: var(--color-accent-cyan);
+      background: var(--color-surface-subtle-hover) !important;
+      border-color: var(--color-accent-cyan);
+      transform: translateY(-1px);
+    }
+
+    .btn-dark {
+      padding: 0.5rem 1.25rem;
+      color: var(--color-text-primary);
+      background: var(--color-surface-subtle);
+      border-color: var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      font-family: 'Outfit', system-ui, sans-serif;
+      font-weight: 600;
+      transition: color var(--transition-normal), background var(--transition-normal), border-color var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .btn-dark:hover,
+    .btn-dark:focus-visible {
+      color: var(--color-accent-cyan);
+      background: var(--color-surface-subtle-hover);
+      border-color: var(--color-accent-cyan);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 767.98px) {
+      .fixed-top {
+        padding-inline: 1rem;
+      }
+
+      .fixed-top h1 {
+        font-size: 1.25rem;
+      }
+
+      .content-area {
+        margin-top: 115px;
+      }
+
+      #myTabs {
+        margin-bottom: 1rem;
+      }
+
+      .col-md-9 > .tab-content {
+        padding: 1.25rem;
+      }
+
+      .year {
+        margin-top: 0.2rem;
+        text-align: left;
+      }
     }
   </style>
 </head>
@@ -66,6 +290,8 @@
             aria-controls="education" aria-selected="true">Education</a>
           <a class="nav-link" id="certifications-tab" data-bs-toggle="pill" href="#certifications" role="tab"
             aria-controls="certifications" aria-selected="false">Certifications</a>
+          <a class="nav-link" id="isorek-tab" data-bs-toggle="pill" href="#isorek" role="tab"
+            aria-controls="isorek" aria-selected="false">ISOREK</a>
           <a class="nav-link" id="skills-tab" data-bs-toggle="pill" href="#skills" role="tab" aria-controls="skills"
             aria-selected="false">Skills</a>
         </div>
@@ -183,6 +409,33 @@
               </div>
               <p>Microsoft</p>
             </div>
+
+            <div class="tab-pane fade" id="isorek" role="tabpanel" aria-labelledby="isorek-tab">
+              <div class="row">
+                <div class="col-md-8 entity-title">
+                  <a href="https://isorek.com" target="_blank" rel="noopener noreferrer">
+                    Founder &amp; Software Developer
+                  </a>
+                </div>
+                <div class="col-md-4 year">2025 - Present</div>
+              </div>
+              <p>ISOREK</p>
+              <hr />
+              <p>
+                Building and shipping cross-platform MIDI plugins for creative DAW workflows. Responsible for product
+                design, C++ and JUCE development, testing, licensing, release automation, and the Astro and Cloudflare
+                catalogue.
+              </p>
+              <div class="d-flex flex-wrap">
+                <a href="https://isorek.com/prologue/" target="_blank" rel="noopener noreferrer"
+                  class="badge rounded-pill bg-dark m-1">Prologue</a>
+                <a href="https://isorek.com/gates/" target="_blank" rel="noopener noreferrer"
+                  class="badge rounded-pill bg-dark m-1">Gates</a>
+                <a href="https://isorek.com/bridge/" target="_blank" rel="noopener noreferrer"
+                  class="badge rounded-pill bg-dark m-1">Bridge</a>
+              </div>
+            </div>
+
             <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
               <div class="d-flex flex-wrap">
                 <a href="https://docs.microsoft.com/en-us/dotnet/csharp/" target="_blank" rel="noopener noreferrer"
@@ -227,6 +480,10 @@
   </div>
 
   <div class="fixed-bottom text-center">
+    <a href="https://www.linkedin.com/in/marc-andr%C3%A9-landry-b-ing-37b26b88/" target="_blank"
+      rel="noopener noreferrer" class="btn btn-dark mx-2">
+      <i class="bi bi-linkedin"></i> LinkedIn
+    </a>
     <a href="https://github.com/1legality" target="_blank" class="btn btn-dark mx-2">
       <i class="bi bi-github"></i> GitHub
     </a>
