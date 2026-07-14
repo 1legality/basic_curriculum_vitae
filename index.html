@@ -55,13 +55,14 @@
     }
 
     body {
+      display: flow-root;
       min-height: 100vh;
       margin: 0;
       font-family: 'Inter', system-ui, sans-serif;
       line-height: 1.6;
       color: var(--color-text-primary);
       background:
-        radial-gradient(circle at 8% 22%, color-mix(in srgb, var(--color-accent-cyan) 13%, transparent), transparent 28rem),
+        radial-gradient(circle at 8% 4rem, color-mix(in srgb, var(--color-accent-cyan) 22%, transparent), transparent 30rem),
         radial-gradient(circle at 92% 72%, color-mix(in srgb, var(--color-accent-purple) 12%, transparent), transparent 30rem),
         var(--color-bg-deep);
       background-attachment: fixed;
@@ -109,7 +110,7 @@
       right: 0;
       z-index: 100;
       padding: 0.85rem 1.5rem 0.7rem;
-      background: var(--color-bg-header);
+      background: color-mix(in srgb, var(--color-bg-deep) 97%, transparent);
       backdrop-filter: var(--glass-blur);
       -webkit-backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid var(--color-border-subtle);
@@ -176,7 +177,8 @@
     .nav-pills .nav-link.active {
       color: var(--color-accent-contrast);
       background: var(--gradient-brand);
-      border-color: transparent;
+      background-clip: padding-box;
+      border-color: var(--color-border-subtle);
       box-shadow: 0 0 18px color-mix(in srgb, var(--color-accent-blue) 20%, transparent);
     }
 
